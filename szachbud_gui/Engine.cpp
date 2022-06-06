@@ -91,6 +91,15 @@ void Engine::MainLoop()
 							//tutaj sprawdzamy poprawnoœæ ruchu, jesli jest OK to przenosimy figurke
 							//na nowa pozycje. updatujemy jej pozycje na planszy
 
+							// The piece has been returned to its default square
+
+							if (PixelsToSquare(mouseX, mouseY) == selectedSquare)
+							{
+								*(selectedSquare->piece->GetPosition()) = SquareToPixels(selectedSquare);
+								selectedSquare = nullptr;
+								break;
+							}
+
 							currentMove.dest = PixelsToSquare(mouseX, mouseY)->position;
 
 							// Delete the oponent's piece if its on the target square
@@ -179,6 +188,8 @@ Engine::Engine(const char* gfx)
 	}
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+	SDL_SetRelativeMouseMode(SDL_FALSE);
 
 	if (!renderer)
 	{

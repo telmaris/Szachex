@@ -9,6 +9,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#define SDL_MOUSE_RELATIVE 0
+
 #define WINDOW_X 800
 #define WINDOW_Y 800
 
