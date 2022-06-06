@@ -185,6 +185,8 @@ Engine::Engine(const char* gfx)
 	{
 		std::cout << SDL_GetError() << std::endl;
 		return;
+
+
 	}
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
