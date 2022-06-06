@@ -101,3 +101,8 @@ void Chessboard::AddMove(Move m)
 {
 	history.push_back(m);
 }
+
+std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
+{
+
+}

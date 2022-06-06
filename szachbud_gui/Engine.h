@@ -25,6 +25,8 @@ private:
 	Square* PixelsToSquare(int x, int y);
 	SDL_Rect SquareToPixels(Square* s);
 
+	std::vector<Move> FindMechanicalMoves(Chessboard* board, Color c);
+
 	std::unique_ptr<Chessboard> cb;
 	std::unique_ptr<AI> ai;
 

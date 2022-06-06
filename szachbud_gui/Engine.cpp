@@ -239,3 +239,8 @@ SDL_Rect Engine::SquareToPixels(Square* s)
 	return r;
 }
 
+std::vector<Move> Engine::FindMechanicalMoves(Chessboard* board, Color c)
+{
+	return board->FindMechanicalMoves(c);
+}
+
