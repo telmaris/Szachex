@@ -1,0 +1,3 @@
+﻿  Engine.cpp
+C:\Users\Arek\source\repos\szachbud_gui\szachbud_gui\Chess.h(44,22): warning C4227: użyto konstrukcji przestarzałej: kwalifikatory dla odwołania są ignorowane
+  szachbud_gui.vcxproj -> C:\Users\Arek\source\repos\szachbud_gui\x64\Debug\szachbud_gui.exe
