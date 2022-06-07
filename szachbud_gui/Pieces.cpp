@@ -9,6 +9,9 @@ Piece::Piece(Color c, Position p, const char* gfx, SDL_Renderer* rend)
 	rect.w = 80;
 	rect.h = 80;
 
+	pos = ((7 - (p.y / 100)) * 8) + (p.x / 100);
+	std::cout << pos << std::endl;
+
 	moveCounter = 0;
 
 	texture = LoadTexture(rend, gfx);
@@ -238,7 +241,7 @@ std::vector<Move> Pawn::GetPieceMoves()
 
 
 
-Pawn::Pawn(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) {}
+Pawn::Pawn(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = PAWN; }
 Knight::Knight(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) {}
 Bishop::Bishop(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) {}
 Rook::Rook(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) {}

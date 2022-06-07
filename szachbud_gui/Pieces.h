@@ -54,9 +54,11 @@ public:
 	//~Pawn();
 	Piece* CopyPiece() override;
 	std::vector<Move> GetPieceMoves() override;
+	Type type = PAWN;
+
 private:
 	bool IsValidPosition(int position, int offset) override;
-	Type type = PAWN;
+	
 
 };
 
@@ -68,9 +70,11 @@ public:
 	//~Knight();
 	Piece* CopyPiece() override;
 	std::vector<Move> GetPieceMoves() override;
+	Type type = KNIGHT;
+
 private:
 	bool IsValidPosition(int position, int offset) override;
-	Type type = KNIGHT;
+
 
 };
 
@@ -82,9 +86,11 @@ public:
 	//~Bishop();
 	Piece* CopyPiece() override;
 	std::vector<Move> GetPieceMoves() override;
+	Type type = BISHOP;
+
 private:
 	bool IsValidPosition(int position, int offset) override;
-	Type type = BISHOP;
+	
 };
 
 class Rook : public Piece
@@ -95,9 +101,11 @@ public:
 	//~Rook();
 	Piece* CopyPiece() override;
 	std::vector<Move> GetPieceMoves() override;
+	Type type = ROOK;
+
 private:
 	bool IsValidPosition(int position, int offset) override;
-	Type type = ROOK;
+	
 };
 
 class Queen : public Piece
@@ -108,9 +116,11 @@ public:
 	//~Queen();
 	Piece* CopyPiece() override;
 	std::vector<Move> GetPieceMoves() override;
+	Type type = QUEEN;
+
 private:
 	bool IsValidPosition(int position, int offset) override;
-	Type type = QUEEN;
+	
 };
 
 class King : public Piece
@@ -121,7 +131,9 @@ public:
 	//~King();
 	Piece* CopyPiece() override;
 	std::vector<Move> GetPieceMoves() override;
+	Type type = KING;
+
 private:
 	bool IsValidPosition(int position, int offset) override;
-	Type type = KING;
+	
 };

@@ -188,14 +188,16 @@ bool Chessboard::IsCollision(Move move)
 
 std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 {
+	std::cout << "Looking for mechancial moves! \n";
 	std::vector<Move> buff{};
 	if (turn == Color::WHITE)
 	{
 		for (auto p : white)
 		{
-			p->LegalMoves.clear();
+			std::cout << "Looking for moves for: " << p->type << std::endl;
 			for (auto m : p->GetPieceMoves())
 			{
+				std
 				if (!IsCollision(m))
 				{
 					buff.push_back(m);
