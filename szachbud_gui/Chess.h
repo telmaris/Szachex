@@ -62,6 +62,10 @@ private:
 
 	bool IsCollision(Move m);
 
+	std::vector<Move> PawnEvents(Color c, std::vector<Move>& moves);
+
+	void deleteIfEnPassant(Move move);
+
 	std::array<Square, 64> arr;
 
 	std::vector<Piece*> white;

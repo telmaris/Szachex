@@ -42,6 +42,8 @@ void Chessboard::MakeMove(Move m)
 	GetSquare(m.dest)->piece = GetSquare(m.src)->piece;
 	GetSquare(m.src)->piece = nullptr;
 
+	deleteIfEnPassant(m);
+
 	AddMove(m);
 	ChangeTurn();
 }
@@ -248,8 +250,7 @@ std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 		}
 	}
 
-	// Debugging
-
+	PawnEvents(c, buff);
 
 	return buff;
 }
@@ -299,4 +300,161 @@ std::unique_ptr<Chessboard> Chessboard::Copy()
 	}
 
 	return cpy;
+}
+
+std::vector<Move> Chessboard::PawnEvents(Color c, std::vector<Move>& moves)
+{	// usuwa nadmierne bicie, dodaje bicie w przelocie. kolor bialy oznacza sprawdzenei czy biale moga bic
+	
+	std::vector<int> idxToErase{};
+
+	int iter = 0;
+
+	for (auto move : moves)
+	{// dodawanie pozycji bicia w wektorze ruchow
+		if (GetSquare(move.src)->piece->type == PAWN)
+		{
+			if (GetSquare(move.dest)->piece == nullptr && (abs(move.src - move.dest) == 7 || abs(move.src - move.dest) == 9))
+			{
+				idxToErase.push_back(iter);
+			}
+		}
+		iter++;
+	}
+	// usuwanie bicia
+	int idx = 0;
+	int delIdx;
+	if (!idxToErase.empty())
+	{
+		for (int i = 0; i < idxToErase.size(); i++)
+		{
+			delIdx = idxToErase.at(i) + idx;
+			if (delIdx == moves.size()) { moves.pop_back(); }
+			else { moves.erase(moves.begin() + delIdx); }
+			idx -= 1;
+		}
+	}
+
+	// en passant
+	if (history.size() > 3)
+	{
+		Move m{ history.back() };
+		// sprawdzanie czy ostatni ruch to skok o dwa pola pionem
+		if (GetSquare(m.dest)->piece->type == PAWN && (abs(m.dest - m.src) == 16))
+		{
+			// sprawdzanie czy na lewo nie ma juz granicy planszy
+			if (m.src % 8 == 0)
+			{
+				if (c == Color::BLACK)
+				{
+					// sprawdzanie czy na pozycji bojowej jest nasz pion 
+					if (GetSquare(m.src + 17)->piece != nullptr) 
+					{
+						if (GetSquare(m.src + 17)->piece->type == PAWN && GetSquare(m.src + 17)->piece->color == c)
+						{
+							Move move{ m.src + 17, m.src + 8 };
+							moves.push_back(move);
+						}
+					}
+				}
+				else
+				{
+					if (GetSquare(m.src - 15)->piece != nullptr)
+					{
+						if (GetSquare(m.src - 15)->piece->type == PAWN && GetSquare(m.src - 15)->piece->color == c)
+						{
+							Move move{ m.src - 15, m.src - 8 };
+							moves.push_back(move);
+						}
+					}
+				}
+			}
+			// sprawdzanie czy na lewo nie ma juz granicy planszy
+			else if (m.src % 8 == 7)
+			{
+				if (c == Color::BLACK)
+				{
+					// sprawdzanie czy na pozycji bojowej jest nasz pion 
+					if (GetSquare(m.src + 15)->piece != nullptr)
+					{
+						if (GetSquare(m.src + 15)->piece->type == PAWN && GetSquare(m.src + 15)->piece->color == c)
+						{
+							Move move{ m.src + 15, m.src + 8 };
+							moves.push_back(move);
+						}
+					}
+				}
+				else
+				{
+					if (GetSquare(m.src - 17)->piece != nullptr)
+					{
+						if (GetSquare(m.src - 17)->piece->type == PAWN && GetSquare(m.src - 17)->piece->color == c)
+						{
+							Move move{ m.src - 17, m.src - 8 };
+							moves.push_back(move);
+						}
+					}
+				}
+			}
+			// srodkowe piony
+			else
+			{
+				if (c == Color::BLACK)
+				{
+					// sprawdzanie czy na pozycji bojowej jest nasz pion 
+					if (GetSquare(m.src + 17)->piece != nullptr)
+					{
+						if (GetSquare(m.src + 17)->piece->type == PAWN && GetSquare(m.src + 17)->piece->color == c)
+						{
+							Move move{ m.src + 17, m.src + 8 };
+							moves.push_back(move);
+						}
+					}
+					if (GetSquare(m.src + 15)->piece != nullptr)
+					{
+						if (GetSquare(m.src + 15)->piece->type == PAWN && GetSquare(m.src + 15)->piece->color == c)
+						{
+							Move move{ m.src + 15, m.src + 8 };
+							moves.push_back(move);
+						}
+					}
+				}
+				else
+				{
+					if (GetSquare(m.src - 17)->piece != nullptr)
+					{
+						if (GetSquare(m.src - 17)->piece->type == PAWN && GetSquare(m.src - 17)->piece->color == c)
+						{
+							Move move{ m.src - 17, m.src - 8 };
+							moves.push_back(move);
+						}
+					}
+					if (GetSquare(m.src - 15)->piece != nullptr)
+					{
+						if (GetSquare(m.src - 15)->piece->type == PAWN && GetSquare(m.src - 15)->piece->color == c)
+						{
+							Move move{ m.src - 15, m.src - 8 };
+							moves.push_back(move);
+						}
+					}
+				}
+			}
+		}
+	}
+	return moves;
+}
+
+void Chessboard::deleteIfEnPassant(Move move)
+{
+	if (history.size() > 3)
+	{
+		Move m{ history.back() };
+		if (GetSquare(m.dest)->piece->type == PAWN && (abs(m.dest - m.src) == 16))
+		{
+			if (abs(move.dest - m.dest) == 8 && GetSquare(move.dest)->piece->type == PAWN)
+			{
+				DestroyPiece(GetSquare(m.dest)->piece);
+				GetSquare(m.dest)->piece = nullptr;
+			}
+		}
+	}
 }
