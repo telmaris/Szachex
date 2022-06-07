@@ -32,10 +32,14 @@ public:
 		if (c == Color::WHITE)
 		{
 			white.push_back(static_cast<Piece*>(piece));
+			std::cout << "White " << typeid(T).name() << " has been created\n";
+			std::cout << "White piece vector size: " << white.size() << std::endl;
 		}
 		else
 		{
 			black.push_back(static_cast<Piece*>(piece));
+			std::cout << "Black " << typeid(T).name() << " has been created\n";
+			std::cout << "Black piece vector size: " << black.size() << std::endl;
 		}
 
 		arr[8 * (pos.row - 1) + (static_cast<uint8_t>(pos.col) - 97)].piece = piece;

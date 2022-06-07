@@ -21,11 +21,11 @@ Chessboard::~Chessboard()
 {
 	for (auto p : white)
 	{
-		DestroyPiece(p);
+		delete p;
 	}
 	for (auto p : black)
 	{
-		DestroyPiece(p);
+		delete p;
 	}
 }
 
@@ -169,7 +169,7 @@ void Chessboard::FindLegalMoves(std::vector<Move> v)
 	{
 		if (!IsCheck(p))
 		{
-			//legalMoves.insert(p);
+			legalMoves.insert(p);
 		}
 	}
 }
