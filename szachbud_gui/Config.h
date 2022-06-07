@@ -24,8 +24,8 @@ enum class Color
 
 enum Type
 {
-	DEFAULT = 1,
-	PAWN = 2,
+	DEFAULT,
+	PAWN,
 	KNIGHT,
 	BISHOP,
 	ROOK,

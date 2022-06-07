@@ -138,7 +138,7 @@ bool Bishop::IsValidPosition(int posit, int offset)
 
 std::vector<Move> Bishop::GetPieceMoves()
 {
-	std::array<int, 8> Offset{ 7, -7, 9, -9 };
+	std::array<int, 4> Offset{ 7, -7, 9, -9 };
 	std::vector<Move> moves;
 	for (int off : Offset)
 	{
@@ -202,8 +202,10 @@ std::vector<Move> Pawn::GetPieceMoves()
 			Move m{ pos, pos + 16 };
 			moves.push_back(m);
 		}
+
 		Move m{ pos, pos + 8 };
 		moves.push_back(m);
+
 		if (IsValidPosition(pos, 7))
 		{
 			Move m{ pos, pos + 7 };
@@ -242,11 +244,11 @@ std::vector<Move> Pawn::GetPieceMoves()
 
 
 Pawn::Pawn(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = PAWN; }
-Knight::Knight(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) {}
-Bishop::Bishop(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) {}
-Rook::Rook(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) {}
-Queen::Queen(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) {}
-King::King(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) {}
+Knight::Knight(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = KNIGHT; }
+Bishop::Bishop(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = BISHOP; }
+Rook::Rook(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = ROOK; }
+Queen::Queen(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = QUEEN; }
+King::King(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = KING; }
 
 Piece* Pawn::CopyPiece() { return new Pawn{ *this }; }
 Piece* Knight::CopyPiece() { return new Knight{ *this }; }

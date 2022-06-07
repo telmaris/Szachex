@@ -127,35 +127,37 @@ bool Chessboard::IsCollision(Move move)
 	int a = move.dest - move.src;
 	int b = abs(floor(move.dest / 8) - floor(move.src / 8));
 	int offset;
-	
+
 	if (b == 0) { offset = a / abs(a); }
 	else { offset = a / b; }
 
 	bool wasEnemySpotted = false;
-	bool isDetection = false;
 	int currPos = move.src;
+
+	if (GetSquare(move.src)->piece->type == KNIGHT)
+	{
+		offset = a;
+	}
 
 	while (currPos != move.dest)
 	{
 		if (wasEnemySpotted == true)
 		{
-			isDetection = true;
-			break;
+			return true;
 		}
-		if (GetSquare(currPos + offset)->piece != NULL)
+		if (GetSquare((currPos + offset))->piece != nullptr)
 		{
-			if (GetSquare(currPos + offset)->piece->type == PAWN && abs(offset) == 8)
+
+			if (GetSquare(currPos)->piece->type == PAWN && abs(offset) == 8)
 			{
-				isDetection = true;
-				break;
+				return true;
 			}
 			else
 			{
 				// friendly piece
 				if (GetSquare(currPos + offset)->piece->color == GetSquare(move.src)->piece->color)
 				{
-					isDetection = true;
-					break;
+					return true;
 				}
 				// enemy piece
 				if (GetSquare(currPos + offset)->piece->color != GetSquare(move.src)->piece->color)
@@ -163,27 +165,17 @@ bool Chessboard::IsCollision(Move move)
 					wasEnemySpotted = true;
 				}
 			}
+
 		}
 		// No detection
 		else
 		{
-			if (GetSquare(currPos + offset)->piece->type == PAWN && abs(offset) != 8)
-			{
-				// pion bije na ukos
-				if (GetSquare(currPos + offset)->piece != NULL)
-				{
-					if (GetSquare(currPos + offset)->piece->color != GetSquare(move.src)->piece->color)
-					{
-						wasEnemySpotted = true;
-					}
-					else { isDetection = true; break; }
-				}
-				else { isDetection = true; break; }
-			}
+			return false;
 		}
+		currPos += offset;
 	}
 
-	return isDetection;
+	return false;
 }
 
 std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
@@ -195,9 +187,11 @@ std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 		for (auto p : white)
 		{
 			std::cout << "Looking for moves for: " << p->type << std::endl;
-			for (auto m : p->GetPieceMoves())
+
+			auto b = p->GetPieceMoves();
+
+			for (auto m : b)
 			{
-				std
 				if (!IsCollision(m))
 				{
 					buff.push_back(m);
@@ -209,8 +203,9 @@ std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 	{
 		for (auto p : black)
 		{
-			p->LegalMoves.clear();
-			for (auto m : p->GetPieceMoves())
+			auto b = p->GetPieceMoves();
+
+			for (auto m : b)
 			{
 				if (!IsCollision(m))
 				{
@@ -223,7 +218,7 @@ std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 	// Debugging
 	for (auto m : buff)
 	{
-		std::cout << "Move: " << m. src <<" " << m.dest << std::endl;
+		std::cout << "Move: " << m.src << " " << m.dest << std::endl;
 	}
 
 	return buff;

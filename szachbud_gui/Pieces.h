@@ -36,9 +36,7 @@ public:
 	Color color;
 	int moveCounter;
 	int pos{};
-	Type type;
-
-
+	Type type = DEFAULT;
 
 protected:
 	SDL_Texture* texture;
@@ -54,11 +52,10 @@ public:
 	//~Pawn();
 	Piece* CopyPiece() override;
 	std::vector<Move> GetPieceMoves() override;
-	Type type = PAWN;
 
 private:
 	bool IsValidPosition(int position, int offset) override;
-	
+
 
 };
 
@@ -70,7 +67,6 @@ public:
 	//~Knight();
 	Piece* CopyPiece() override;
 	std::vector<Move> GetPieceMoves() override;
-	Type type = KNIGHT;
 
 private:
 	bool IsValidPosition(int position, int offset) override;
@@ -86,11 +82,10 @@ public:
 	//~Bishop();
 	Piece* CopyPiece() override;
 	std::vector<Move> GetPieceMoves() override;
-	Type type = BISHOP;
 
 private:
 	bool IsValidPosition(int position, int offset) override;
-	
+
 };
 
 class Rook : public Piece
@@ -101,11 +96,10 @@ public:
 	//~Rook();
 	Piece* CopyPiece() override;
 	std::vector<Move> GetPieceMoves() override;
-	Type type = ROOK;
 
 private:
 	bool IsValidPosition(int position, int offset) override;
-	
+
 };
 
 class Queen : public Piece
@@ -116,11 +110,10 @@ public:
 	//~Queen();
 	Piece* CopyPiece() override;
 	std::vector<Move> GetPieceMoves() override;
-	Type type = QUEEN;
 
 private:
 	bool IsValidPosition(int position, int offset) override;
-	
+
 };
 
 class King : public Piece
@@ -131,9 +124,8 @@ public:
 	//~King();
 	Piece* CopyPiece() override;
 	std::vector<Move> GetPieceMoves() override;
-	Type type = KING;
 
 private:
 	bool IsValidPosition(int position, int offset) override;
-	
+
 };
