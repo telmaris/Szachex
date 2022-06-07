@@ -18,7 +18,7 @@ public:
 	void MakeMove(Move m);
 	void AddMove(Move m);
 
-	bool IsMoveValid(Move m);
+	bool IsMoveValid(const Move& m);
 
 	std::vector<Move> FindMechanicalMoves(Color c);
 	void FindLegalMoves(std::vector<Move> v);

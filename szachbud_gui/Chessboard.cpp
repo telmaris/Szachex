@@ -37,6 +37,8 @@ void Chessboard::MakeMove(Move m)
 		GetSquare(m.dest)->piece = nullptr;
 	}
 
+	GetSquare(m.src)->piece->pos = m.dest;
+	GetSquare(m.src)->piece->moveCounter++;
 	GetSquare(m.dest)->piece = GetSquare(m.src)->piece;
 	GetSquare(m.src)->piece = nullptr;
 
@@ -224,12 +226,16 @@ std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 	return buff;
 }
 
-bool Chessboard::IsMoveValid(Move m)
+bool Chessboard::IsMoveValid(const Move& m)
 {
+	std::cout << "Checking move: " << m.src << " " << m.dest << "\n";
+	std::cout << "Legal moves pool: " << legalMoves.size() << "\n";
 	for (auto& const move : legalMoves)
 	{
-		if (move == m)
+
+		if (move.src == m.src && move.dest == m.dest)
 		{
+			std::cout << "Correct move!\n";
 			return true;
 		}
 	}

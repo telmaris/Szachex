@@ -36,7 +36,7 @@ void Engine::MainLoop()
 				mechMoves = FindMechanicalMoves(cb.get(), Color::BLACK);
 			}
 
-			//FindLegalMoves(mechMoves);
+			cb->FindLegalMoves(mechMoves);
 
 			movesEvaluated = true;
 		}
@@ -97,7 +97,8 @@ void Engine::MainLoop()
 						currentMove.dest = PixelsToSquare(mouseX, mouseY)->position;
 
 
-						if (/*cb->IsMoveValid(currentMove) */ true)	//warunek 
+
+						if (cb->IsMoveValid(currentMove))	//warunek 
 						{
 							if (PixelsToSquare(mouseX, mouseY) == selectedSquare)
 							{
@@ -116,11 +117,7 @@ void Engine::MainLoop()
 						}
 						else
 						{
-							// Returning to the default square
-
 							*(selectedSquare->piece->GetPosition()) = SquareToPixels(selectedSquare);
-							std::cout << "X: " << mouseX << " Y: " << mouseY << "\n";
-							std::cout << "Square: " << PixelsToSquare(mouseX, mouseY)->position << "\n";
 						}
 
 						selectedSquare = nullptr;
@@ -156,7 +153,7 @@ Engine::Engine(const char* gfx)
 	{
 		std::cout << SDL_GetError() << std::endl;
 		return;
-		}
+	}
 
 	if (IMG_Init(IMG_INIT_PNG) < 0)
 	{
@@ -228,7 +225,7 @@ Engine::Engine(const char* gfx)
 	auto bb2 = CreatePiece<Bishop>(Color::BLACK, { 'f', 8 }, "pieces/bb.png");
 	auto bq = CreatePiece<Queen>(Color::BLACK, { 'd', 8 }, "pieces/qb.png");
 	auto bk = CreatePiece<King>(Color::BLACK, { 'e', 8 }, "pieces/kb.png");
-	}
+}
 
 Engine::~Engine()
 {
