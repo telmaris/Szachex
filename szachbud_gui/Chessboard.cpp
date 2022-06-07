@@ -119,6 +119,29 @@ void Chessboard::AddMove(Move m)
 // TODO: add body to these functions
 bool Chessboard::IsCheck()
 {
+	int kingPosition;
+	std::vector<Move> oponentsMove{};
+	if (turn == Color::WHITE)
+	{
+		oponentsMove = FindMechanicalMoves(Color::BLACK);
+		for (auto p : white)
+		{
+			if (p->type == KING) { kingPosition = p->pos; }
+		}
+	}
+	else 
+	{
+		oponentsMove = FindMechanicalMoves(Color::WHITE);
+		for (auto p : black)
+		{
+			if (p->type == KING) { kingPosition = p->pos; }
+		}
+	}
+
+	for (auto m : oponentsMove)
+	{
+		if (m.dest == kingPosition) { return true; }
+	}
 	return false;
 }
 
@@ -184,7 +207,7 @@ std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 {
 	std::cout << "Looking for mechancial moves! \n";
 	std::vector<Move> buff{};
-	if (turn == Color::WHITE)
+	if (c == Color::WHITE)
 	{
 		for (auto p : white)
 		{
