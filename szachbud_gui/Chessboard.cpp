@@ -169,7 +169,6 @@ bool Chessboard::IsCollision(Move move)
 
 	bool wasEnemySpotted = false;
 	int currPos = move.src;
-
 	if (GetSquare(move.src)->piece->type == KNIGHT)
 	{
 		offset = a;
@@ -184,7 +183,7 @@ bool Chessboard::IsCollision(Move move)
 		if (GetSquare((currPos + offset))->piece != nullptr)
 		{
 
-			if (GetSquare(currPos)->piece->type == PAWN && abs(offset) == 8)
+			if (GetSquare(move.src)->piece->type == PAWN && abs(offset) == 8)
 			{
 				return true;
 			}
@@ -206,7 +205,7 @@ bool Chessboard::IsCollision(Move move)
 		// No detection
 		else
 		{
-			return false;
+			//return false;
 		}
 		currPos += offset;
 	}
