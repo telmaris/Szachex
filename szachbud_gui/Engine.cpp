@@ -24,16 +24,16 @@ void Engine::MainLoop()
 
 		if (!movesEvaluated)
 		{
-			//std::vector<Move> mechMoves{};
+			std::vector<Move> mechMoves{};
 
 			if (cb->GetTurn() == Color::WHITE)
 			{
-				//mechMoves = FindMechanicalMoves(cb.get(), Color::WHITE);
+				mechMoves = FindMechanicalMoves(cb.get(), Color::WHITE);
 
 			}
 			else
 			{
-				//mechMoves = FindMechanicalMoves(cb.get(), Color::BLACK);
+				mechMoves = FindMechanicalMoves(cb.get(), Color::BLACK);
 			}
 
 			//FindLegalMoves(mechMoves);

@@ -217,6 +217,13 @@ std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 			}
 		}
 	}
+
+	// Debugging
+	for (auto m : buff)
+	{
+		std::cout << "Move: " << m. src <<" " << m.dest << std::endl;
+	}
+
 	return buff;
 }
 
