@@ -11,14 +11,14 @@ void Engine::MainLoop()
 	{
 		auto timeStart = SDL_GetPerformanceCounter();
 		double elapsed = 0.0;
-		
-		//int mouseX = event.button.x;
-		//int mouseY = event.button.y;
-		static int mouseX = 0;
-		static int mouseY = 0;
 
+<<<<<<< HEAD
 		SDL_PumpEvents();
 		SDL_GetMouseState(&mouseX, &mouseY);
+=======
+		int mouseX = event.button.x;
+		int mouseY = event.button.y;
+>>>>>>> parent of 0ea0a59 (działa u Marcinka)
 
 		static Move currentMove{};
 		static Color turn = Color::WHITE;
