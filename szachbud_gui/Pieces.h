@@ -35,7 +35,7 @@ public:
 
 	Color color;
 	int moveCounter;
-	int pos;
+	int pos{};
 	Type type;
 
 
