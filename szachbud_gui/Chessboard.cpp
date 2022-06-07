@@ -43,6 +43,7 @@ void Chessboard::MakeMove(Move m)
 	GetSquare(m.src)->piece = nullptr;
 
 	deleteIfEnPassant(m);
+	moveRookDuringCastling(m);
 
 	AddMove(m);
 	ChangeTurn();
@@ -277,6 +278,7 @@ void Chessboard::FindLegalMoves(std::vector<Move> v)
 			legalMoves.push_back(p);
 		}
 	}
+	AddCastling();
 }
 
 std::unique_ptr<Chessboard> Chessboard::Copy()
@@ -303,7 +305,7 @@ std::unique_ptr<Chessboard> Chessboard::Copy()
 }
 
 std::vector<Move> Chessboard::PawnEvents(Color c, std::vector<Move>& moves)
-{	// usuwa nadmierne bicie, dodaje bicie w przelocie. kolor bialy oznacza sprawdzenei czy biale moga bic
+{	// usuwa nadmierne bicie, dodaje bicie w przelocie. kolor bialy oznacza sprawdzenie czy biale moga bic
 	
 	std::vector<int> idxToErase{};
 
@@ -335,7 +337,7 @@ std::vector<Move> Chessboard::PawnEvents(Color c, std::vector<Move>& moves)
 	}
 
 	// en passant
-	if (history.size() > 3)
+	if (history.size() > 0)
 	{
 		Move m{ history.back() };
 		// sprawdzanie czy ostatni ruch to skok o dwa pola pionem
@@ -455,6 +457,133 @@ void Chessboard::deleteIfEnPassant(Move move)
 				DestroyPiece(GetSquare(m.dest)->piece);
 				GetSquare(m.dest)->piece = nullptr;
 			}
+		}
+	}
+}
+
+void Chessboard::AddCastling() 
+{
+	if (turn == Color::WHITE)
+	{
+		// krotka
+		if (GetSquare(4)->piece != nullptr && GetSquare(7)->piece != nullptr)
+		{
+			if (GetSquare(4)->piece->type == KING && GetSquare(7)->piece->type == ROOK)
+			{
+				if (GetSquare(4)->piece->moveCounter == 0 && GetSquare(7)->piece->moveCounter == 0)
+				{
+					if (GetSquare(5)->piece == nullptr && GetSquare(6)->piece == nullptr)
+					{
+						Move m1{ 4, 5 };
+						Move m2{ 4,6 };
+						if (!(IsCheck(m1) || IsCheck(m2)))
+						{
+							Move roszada{ 4, 6 };
+							legalMoves.push_back(roszada);
+						}
+					}
+				}
+			}
+		}
+
+		//dluga jak sznur dla mnje
+		if (GetSquare(4)->piece != nullptr && GetSquare(0)->piece != nullptr)
+		{
+			if (GetSquare(4)->piece->type == KING && GetSquare(0)->piece->type == ROOK)
+			{
+				if (GetSquare(4)->piece->moveCounter == 0 && GetSquare(0)->piece->moveCounter == 0)
+				{
+					if (GetSquare(3)->piece == nullptr && GetSquare(2)->piece == nullptr && GetSquare(1)->piece == nullptr)
+					{
+						Move m1{ 4, 3 };
+						Move m2{ 4,2 };
+						if (!(IsCheck(m1) || IsCheck(m2)))
+						{
+							Move roszada{ 4, 2 };
+							legalMoves.push_back(roszada);
+						}
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		// krotka
+		if (GetSquare(60)->piece != nullptr && GetSquare(63)->piece != nullptr)
+		{
+			if (GetSquare(60)->piece->type == KING && GetSquare(63)->piece->type == ROOK)
+			{
+				if (GetSquare(60)->piece->moveCounter == 0 && GetSquare(63)->piece->moveCounter == 0)
+				{
+					if (GetSquare(61)->piece == nullptr && GetSquare(62)->piece == nullptr)
+					{
+						Move m1{ 60, 61 };
+						Move m2{ 60, 62 };
+						if (!(IsCheck(m1) || IsCheck(m2)))
+						{
+							Move roszada{ 60, 62 };
+							legalMoves.push_back(roszada);
+						}
+					}
+				}
+			}
+		}
+
+		//dluga jak sznur dla mnje
+		if (GetSquare(60)->piece != nullptr && GetSquare(56)->piece != nullptr)
+		{
+			if (GetSquare(60)->piece->type == KING && GetSquare(56)->piece->type == ROOK)
+			{
+				if (GetSquare(60)->piece->moveCounter == 0 && GetSquare(56)->piece->moveCounter == 0)
+				{
+					if (GetSquare(59)->piece == nullptr && GetSquare(58)->piece == nullptr && GetSquare(57)->piece == nullptr)
+					{
+						Move m1{ 60, 59 };
+						Move m2{ 60,58 };
+						if (!(IsCheck(m1) || IsCheck(m2)))
+						{
+							Move roszada{ 60, 58 };
+							legalMoves.push_back(roszada);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void Chessboard::moveRookDuringCastling(Move m)
+{
+	if (GetSquare(m.dest)->piece->type == KING && abs(m.dest - m.src) == 2)
+	{
+		if (m.dest == 2)
+		{
+			GetSquare(3)->piece = GetSquare(0)->piece;
+			GetSquare(0)->piece = nullptr;
+			GetSquare(3)->piece->pos = 3;
+			GetSquare(3)->piece->moveCounter++;
+		}
+		else if (m.dest == 6)
+		{
+			GetSquare(5)->piece = GetSquare(7)->piece;
+			GetSquare(7)->piece = nullptr;
+			GetSquare(5)->piece->pos = 5;
+			GetSquare(5)->piece->moveCounter++;
+		}
+		else if (m.dest == 62)
+		{
+			GetSquare(61)->piece = GetSquare(63)->piece;
+			GetSquare(63)->piece = nullptr;
+			GetSquare(61)->piece->pos = 61;
+			GetSquare(61)->piece->moveCounter++;
+		}
+		else if (m.dest == 58)
+		{
+			GetSquare(59)->piece = GetSquare(56)->piece;
+			GetSquare(56)->piece = nullptr;
+			GetSquare(59)->piece->pos = 59;
+			GetSquare(59)->piece->moveCounter++;
 		}
 	}
 }

@@ -60,11 +60,15 @@ private:
 
 	bool IsCheck(Move m);
 
+	void AddCastling();
+
 	bool IsCollision(Move m);
 
 	std::vector<Move> PawnEvents(Color c, std::vector<Move>& moves);
 
 	void deleteIfEnPassant(Move move);
+
+	void moveRookDuringCastling(Move m);
 
 	std::array<Square, 64> arr;
 
