@@ -104,17 +104,17 @@ void Chessboard::AddMove(Move m)
 }
 
 // TODO: add body to these functions
-bool Chessboard::IsCheck() 
+bool Chessboard::IsCheck()
 {
 	return false;
 }
 
 bool Chessboard::IsCheck(Move move) { return false; }
 
-bool Chessboard::IsCollision(Move move) 
+bool Chessboard::IsCollision(Move move)
 {
 
-	return false; 
+	return false;
 }
 
 std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
@@ -127,9 +127,9 @@ std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 			p->LegalMoves.clear();
 			for (auto m : p->GetPieceMoves())
 			{
-				if (!(IsCollision(m) || IsCheck(m)))
+				if (!IsCollision(m))
 				{
-				buff.push_back(m);
+					buff.push_back(m);
 				}
 			}
 		}
@@ -141,7 +141,7 @@ std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 			p->LegalMoves.clear();
 			for (auto m : p->GetPieceMoves())
 			{
-				if (!(IsCollision(m) || IsCheck(m)))
+				if (!IsCollision(m))
 				{
 					buff.push_back(m);
 				}

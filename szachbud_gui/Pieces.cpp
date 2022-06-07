@@ -17,6 +17,8 @@ Piece::Piece(Color c, Position p, const char* gfx, SDL_Renderer* rend)
 	{
 		std::cout << SDL_GetError() << std::endl;
 	}
+
+	LegalMoves = std::vector<Move>{};
 }
 
 Piece::~Piece()
@@ -106,7 +108,7 @@ bool Rook::IsValidPosition(int posit, int offset)
 
 std::vector<Move> Rook::GetPieceMoves()
 {
-	std::array<int, 4> Offset{ 1, -1, 8, -8};
+	std::array<int, 4> Offset{ 1, -1, 8, -8 };
 	std::vector<Move> moves;
 	for (int off : Offset)
 	{
@@ -189,7 +191,7 @@ bool Pawn::IsValidPosition(int posit, int offset)
 
 std::vector<Move> Pawn::GetPieceMoves()
 {
-std::vector<Move> moves;
+	std::vector<Move> moves;
 	if (color == Color::WHITE)
 	{
 		if (moveCounter == 0)
@@ -199,8 +201,8 @@ std::vector<Move> moves;
 		}
 		Move m{ pos, pos + 8 };
 		moves.push_back(m);
-		if(IsValidPosition(pos, 7))
-		{ 
+		if (IsValidPosition(pos, 7))
+		{
 			Move m{ pos, pos + 7 };
 			moves.push_back(m);
 		}
