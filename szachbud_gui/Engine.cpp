@@ -24,6 +24,7 @@ void Engine::MainLoop()
 
 		if (!movesEvaluated)
 		{
+
 			std::vector<Move> mechMoves{};
 
 			if (cb->GetTurn() == Color::WHITE)
@@ -37,6 +38,11 @@ void Engine::MainLoop()
 			}
 
 			cb->FindLegalMoves(mechMoves);
+
+			for (auto m : cb->legalMoves)
+			{
+				std::cout << "Move: " << m.src << " " << m.dest << std::endl;
+			}
 
 			movesEvaluated = true;
 		}
@@ -142,9 +148,9 @@ void Engine::MainLoop()
 		if (elapsed < delay)
 		{
 			SDL_Delay(floor(delay - elapsed));
-		}
-#endif
 	}
+#endif
+}
 }
 
 Engine::Engine(const char* gfx)
@@ -187,44 +193,45 @@ Engine::Engine(const char* gfx)
 
 	running = true;
 
+	graphics = std::make_unique<GFX>(renderer);
+
 	cb = std::make_unique<Chessboard>();
 
+	auto pw1 = CreatePiece<Pawn>(Color::WHITE, { 'a', 2 }, graphics->wp);
+	auto pw2 = CreatePiece<Pawn>(Color::WHITE, { 'b', 2 }, graphics->wp);
+	auto pw3 = CreatePiece<Pawn>(Color::WHITE, { 'c', 2 }, graphics->wp);
+	auto pw4 = CreatePiece<Pawn>(Color::WHITE, { 'd', 2 }, graphics->wp);
+	auto pw5 = CreatePiece<Pawn>(Color::WHITE, { 'e', 2 }, graphics->wp);
+	auto pw6 = CreatePiece<Pawn>(Color::WHITE, { 'f', 2 }, graphics->wp);
+	auto pw7 = CreatePiece<Pawn>(Color::WHITE, { 'g', 2 }, graphics->wp);
+	auto pw8 = CreatePiece<Pawn>(Color::WHITE, { 'h', 2 }, graphics->wp);
 
-	auto pw1 = CreatePiece<Pawn>(Color::WHITE, { 'a', 2 }, "pieces/pw.png");
-	auto pw2 = CreatePiece<Pawn>(Color::WHITE, { 'b', 2 }, "pieces/pw.png");
-	auto pw3 = CreatePiece<Pawn>(Color::WHITE, { 'c', 2 }, "pieces/pw.png");
-	auto pw4 = CreatePiece<Pawn>(Color::WHITE, { 'd', 2 }, "pieces/pw.png");
-	auto pw5 = CreatePiece<Pawn>(Color::WHITE, { 'e', 2 }, "pieces/pw.png");
-	auto pw6 = CreatePiece<Pawn>(Color::WHITE, { 'f', 2 }, "pieces/pw.png");
-	auto pw7 = CreatePiece<Pawn>(Color::WHITE, { 'g', 2 }, "pieces/pw.png");
-	auto pw8 = CreatePiece<Pawn>(Color::WHITE, { 'h', 2 }, "pieces/pw.png");
+	auto wr1 = CreatePiece<Rook>(Color::WHITE, { 'a', 1 }, graphics->wr);
+	auto wr2 = CreatePiece<Rook>(Color::WHITE, { 'h', 1 }, graphics->wr);
+	auto wk1 = CreatePiece<Knight>(Color::WHITE, { 'b', 1 }, graphics->wn);
+	auto wk2 = CreatePiece<Knight>(Color::WHITE, { 'g', 1 }, graphics->wn);
+	auto wb1 = CreatePiece<Bishop>(Color::WHITE, { 'c', 1 }, graphics->wb);
+	auto wb2 = CreatePiece<Bishop>(Color::WHITE, { 'f', 1 }, graphics->wb);
+	auto wq = CreatePiece<Queen>(Color::WHITE, { 'd', 1 }, graphics->wq);
+	auto wk = CreatePiece<King>(Color::WHITE, { 'e', 1 }, graphics->wk);
 
-	auto wr1 = CreatePiece<Rook>(Color::WHITE, { 'a', 1 }, "pieces/rw.png");
-	auto wr2 = CreatePiece<Rook>(Color::WHITE, { 'h', 1 }, "pieces/rw.png");
-	auto wk1 = CreatePiece<Knight>(Color::WHITE, { 'b', 1 }, "pieces/nw.png");
-	auto wk2 = CreatePiece<Knight>(Color::WHITE, { 'g', 1 }, "pieces/nw.png");
-	auto wb1 = CreatePiece<Bishop>(Color::WHITE, { 'c', 1 }, "pieces/bw.png");
-	auto wb2 = CreatePiece<Bishop>(Color::WHITE, { 'f', 1 }, "pieces/bw.png");
-	auto wq = CreatePiece<Queen>(Color::WHITE, { 'd', 1 }, "pieces/qw.png");
-	auto wk = CreatePiece<King>(Color::WHITE, { 'e', 1 }, "pieces/kw.png");
+	auto pb1 = CreatePiece<Pawn>(Color::BLACK, { 'a', 7 }, graphics->bp);
+	auto pb2 = CreatePiece<Pawn>(Color::BLACK, { 'b', 7 }, graphics->bp);
+	auto pb3 = CreatePiece<Pawn>(Color::BLACK, { 'c', 7 }, graphics->bp);
+	auto pb4 = CreatePiece<Pawn>(Color::BLACK, { 'd', 7 }, graphics->bp);
+	auto pb5 = CreatePiece<Pawn>(Color::BLACK, { 'e', 7 }, graphics->bp);
+	auto pb6 = CreatePiece<Pawn>(Color::BLACK, { 'f', 7 }, graphics->bp);
+	auto pb7 = CreatePiece<Pawn>(Color::BLACK, { 'g', 7 }, graphics->bp);
+	auto pb8 = CreatePiece<Pawn>(Color::BLACK, { 'h', 7 }, graphics->bp);
 
-	auto pb1 = CreatePiece<Pawn>(Color::BLACK, { 'a', 7 }, "pieces/pb.png");
-	auto pb2 = CreatePiece<Pawn>(Color::BLACK, { 'b', 7 }, "pieces/pb.png");
-	auto pb3 = CreatePiece<Pawn>(Color::BLACK, { 'c', 7 }, "pieces/pb.png");
-	auto pb4 = CreatePiece<Pawn>(Color::BLACK, { 'd', 7 }, "pieces/pb.png");
-	auto pb5 = CreatePiece<Pawn>(Color::BLACK, { 'e', 7 }, "pieces/pb.png");
-	auto pb6 = CreatePiece<Pawn>(Color::BLACK, { 'f', 7 }, "pieces/pb.png");
-	auto pb7 = CreatePiece<Pawn>(Color::BLACK, { 'g', 7 }, "pieces/pb.png");
-	auto pb8 = CreatePiece<Pawn>(Color::BLACK, { 'h', 7 }, "pieces/pb.png");
-
-	auto br1 = CreatePiece<Rook>(Color::BLACK, { 'a', 8 }, "pieces/rb.png");
-	auto br2 = CreatePiece<Rook>(Color::BLACK, { 'h', 8 }, "pieces/rb.png");
-	auto bk1 = CreatePiece<Knight>(Color::BLACK, { 'b', 8 }, "pieces/nb.png");
-	auto bk2 = CreatePiece<Knight>(Color::BLACK, { 'g', 8 }, "pieces/nb.png");
-	auto bb1 = CreatePiece<Bishop>(Color::BLACK, { 'c', 8 }, "pieces/bb.png");
-	auto bb2 = CreatePiece<Bishop>(Color::BLACK, { 'f', 8 }, "pieces/bb.png");
-	auto bq = CreatePiece<Queen>(Color::BLACK, { 'd', 8 }, "pieces/qb.png");
-	auto bk = CreatePiece<King>(Color::BLACK, { 'e', 8 }, "pieces/kb.png");
+	auto br1 = CreatePiece<Rook>(Color::BLACK, { 'a', 8 }, graphics->br);
+	auto br2 = CreatePiece<Rook>(Color::BLACK, { 'h', 8 }, graphics->br);
+	auto bk1 = CreatePiece<Knight>(Color::BLACK, { 'b', 8 }, graphics->bn);
+	auto bk2 = CreatePiece<Knight>(Color::BLACK, { 'g', 8 }, graphics->bn);
+	auto bb1 = CreatePiece<Bishop>(Color::BLACK, { 'c', 8 }, graphics->bb);
+	auto bb2 = CreatePiece<Bishop>(Color::BLACK, { 'f', 8 }, graphics->bb);
+	auto bq = CreatePiece<Queen>(Color::BLACK, { 'd', 8 }, graphics->bq);
+	auto bk = CreatePiece<King>(Color::BLACK, { 'e', 8 }, graphics->bk);
 }
 
 Engine::~Engine()
@@ -258,6 +265,7 @@ SDL_Rect Engine::SquareToPixels(Square* s)
 
 std::vector<Move> Engine::FindMechanicalMoves(Chessboard* board, Color c)
 {
+	board->legalMoves.clear();
 	return board->FindMechanicalMoves(c);
 }
 

@@ -23,23 +23,19 @@ public:
 	std::vector<Move> FindMechanicalMoves(Color c);
 	void FindLegalMoves(std::vector<Move> v);
 
-	template <typename T> T* CreatePiece(Color c, ChessPosition pos, const char* gfx, SDL_Renderer* rend)
+	template <typename T> T* CreatePiece(Color c, ChessPosition pos, SDL_Texture* t)
 	{
 		Position position{ (static_cast<uint8_t>(pos.col) - 97) * 100, 800 - 100 * pos.row };
 
-		T* piece = new T{ c, position, gfx, rend };
+		T* piece = new T{ c, position, t };
 
 		if (c == Color::WHITE)
 		{
 			white.push_back(static_cast<Piece*>(piece));
-			std::cout << "White " << typeid(T).name() << " has been created\n";
-			std::cout << "White piece vector size: " << white.size() << std::endl;
 		}
 		else
 		{
 			black.push_back(static_cast<Piece*>(piece));
-			std::cout << "Black " << typeid(T).name() << " has been created\n";
-			std::cout << "Black piece vector size: " << black.size() << std::endl;
 		}
 
 		arr[8 * (pos.row - 1) + (static_cast<uint8_t>(pos.col) - 97)].piece = piece;
@@ -58,9 +54,9 @@ public:
 
 	std::unique_ptr<Chessboard> Copy();
 
-private:
+	std::vector<Move> legalMoves;
 
-	bool IsCheck();
+private:
 
 	bool IsCheck(Move m);
 
@@ -75,5 +71,5 @@ private:
 	int whiteKingPosition, blackKingPosition;
 
 	std::vector<Move> history;
-	std::vector<Move> legalMoves;
+
 };

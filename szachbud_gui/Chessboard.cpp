@@ -117,38 +117,43 @@ void Chessboard::AddMove(Move m)
 }
 
 // TODO: add body to these functions
-bool Chessboard::IsCheck()
+
+bool Chessboard::IsCheck(Move move)
 {
-	int kingPosition;
+	int kingPosition = 0;
 	std::vector<Move> oponentsMove{};
+
+	auto copy = Copy();
+
+	copy->MakeMove(move);
+
 	if (turn == Color::WHITE)
 	{
-		oponentsMove = FindMechanicalMoves(Color::BLACK);
-		for (auto p : white)
+		oponentsMove = copy->FindMechanicalMoves(Color::BLACK);
+
+		for (auto p : copy->white)
 		{
-			if (p->type == KING) { kingPosition = p->pos; }
+			if (p->type == KING) kingPosition = p->pos;
 		}
 	}
-	else 
+	else
 	{
-		oponentsMove = FindMechanicalMoves(Color::WHITE);
-		for (auto p : black)
+		oponentsMove = copy->FindMechanicalMoves(Color::WHITE);
+
+		for (auto p : copy->black)
 		{
-			if (p->type == KING) { kingPosition = p->pos; }
+			if (p->type == KING) kingPosition = p->pos;
 		}
 	}
 
 	for (auto m : oponentsMove)
 	{
-		if (m.dest == kingPosition) { return true; }
+		if (m.dest == kingPosition)
+		{
+			std::cout << "King is attacked!!\n";
+			return true;
+		}
 	}
-	return false;
-}
-
-bool Chessboard::IsCheck(Move move)
-{
-
-
 
 	return false;
 }
@@ -217,8 +222,6 @@ std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 	{
 		for (auto p : white)
 		{
-			std::cout << "Looking for moves for: " << p->type << std::endl;
-
 			auto b = p->GetPieceMoves();
 
 			for (auto m : b)
@@ -247,24 +250,17 @@ std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 	}
 
 	// Debugging
-	for (auto m : buff)
-	{
-		std::cout << "Move: " << m.src << " " << m.dest << std::endl;
-	}
+
 
 	return buff;
 }
 
 bool Chessboard::IsMoveValid(const Move& m)
 {
-	std::cout << "Checking move: " << m.src << " " << m.dest << "\n";
-	std::cout << "Legal moves pool: " << legalMoves.size() << "\n";
 	for (auto& const move : legalMoves)
 	{
-
 		if (move.src == m.src && move.dest == m.dest)
 		{
-			std::cout << "Correct move!\n";
 			return true;
 		}
 	}
@@ -287,11 +283,20 @@ std::unique_ptr<Chessboard> Chessboard::Copy()
 {
 	auto cpy = std::make_unique<Chessboard>(*this);
 
+	cpy->white.clear();
+	cpy->black.clear();
+
 	for (auto& const p : white)
 	{
 		auto piece = p->CopyPiece();
 		cpy->arr[p->pos].piece = piece;
 		cpy->white.push_back(piece);
+	}
+	for (auto& const p : black)
+	{
+		auto piece = p->CopyPiece();
+		cpy->arr[p->pos].piece = piece;
+		cpy->black.push_back(piece);
 	}
 
 	return cpy;

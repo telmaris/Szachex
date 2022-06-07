@@ -1,6 +1,8 @@
 #include "Pieces.h"
 
-Piece::Piece(Color c, Position p, const char* gfx, SDL_Renderer* rend)
+
+
+Piece::Piece(Color c, Position p, SDL_Texture* t)
 {
 	color = c;
 
@@ -14,7 +16,7 @@ Piece::Piece(Color c, Position p, const char* gfx, SDL_Renderer* rend)
 
 	moveCounter = 0;
 
-	texture = LoadTexture(rend, gfx);
+	texture = t;
 
 	if (!texture)
 	{
@@ -26,8 +28,8 @@ Piece::Piece(Color c, Position p, const char* gfx, SDL_Renderer* rend)
 
 Piece::~Piece()
 {
-	SDL_DestroyTexture(texture);
-	std::cout << "Piece destroyed!" << std::endl;
+	//SDL_DestroyTexture(texture);
+	//std::cout << "Piece destroyed!" << std::endl;
 }
 
 SDL_Texture* Piece::GetTexture()
@@ -240,15 +242,12 @@ std::vector<Move> Pawn::GetPieceMoves()
 	return moves;
 }
 
-
-
-
-Pawn::Pawn(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = PAWN; }
-Knight::Knight(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = KNIGHT; }
-Bishop::Bishop(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = BISHOP; }
-Rook::Rook(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = ROOK; }
-Queen::Queen(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = QUEEN; }
-King::King(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) { type = KING; }
+Pawn::Pawn(Color c, Position pos, SDL_Texture* t) : Piece(c, pos, t) { type = PAWN; }
+Knight::Knight(Color c, Position pos, SDL_Texture* t) : Piece(c, pos, t) { type = KNIGHT; }
+Bishop::Bishop(Color c, Position pos, SDL_Texture* t) : Piece(c, pos, t) { type = BISHOP; }
+Rook::Rook(Color c, Position pos, SDL_Texture* t) : Piece(c, pos, t) { type = ROOK; }
+Queen::Queen(Color c, Position pos, SDL_Texture* t) : Piece(c, pos, t) { type = QUEEN; }
+King::King(Color c, Position pos, SDL_Texture* t) : Piece(c, pos, t) { type = KING; }
 
 Piece* Pawn::CopyPiece() { return new Pawn{ *this }; }
 Piece* Knight::CopyPiece() { return new Knight{ *this }; }

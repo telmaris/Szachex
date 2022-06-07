@@ -21,7 +21,7 @@ class Piece
 {
 public:
 
-	Piece(Color c, Position pos, const char* gfx, SDL_Renderer* rend);
+	Piece(Color c, Position pos, SDL_Texture* t);
 
 	~Piece();
 
@@ -47,7 +47,7 @@ protected:
 class Pawn : public Piece
 {
 public:
-	Pawn(Color c, Position pos, const char* gfx, SDL_Renderer* rend);
+	Pawn(Color c, Position pos, SDL_Texture* t);
 
 	//~Pawn();
 	Piece* CopyPiece() override;
@@ -62,7 +62,7 @@ private:
 class Knight : public Piece
 {
 public:
-	Knight(Color c, Position pos, const char* gfx, SDL_Renderer* rend);
+	Knight(Color c, Position pos, SDL_Texture* t);
 
 	//~Knight();
 	Piece* CopyPiece() override;
@@ -77,7 +77,7 @@ private:
 class Bishop : public Piece
 {
 public:
-	Bishop(Color c, Position pos, const char* gfx, SDL_Renderer* rend);
+	Bishop(Color c, Position pos, SDL_Texture* t);
 
 	//~Bishop();
 	Piece* CopyPiece() override;
@@ -91,7 +91,7 @@ private:
 class Rook : public Piece
 {
 public:
-	Rook(Color c, Position pos, const char* gfx, SDL_Renderer* rend);
+	Rook(Color c, Position pos, SDL_Texture* t);
 
 	//~Rook();
 	Piece* CopyPiece() override;
@@ -105,7 +105,7 @@ private:
 class Queen : public Piece
 {
 public:
-	Queen(Color c, Position pos, const char* gfx, SDL_Renderer* rend);
+	Queen(Color c, Position pos, SDL_Texture* t);
 
 	//~Queen();
 	Piece* CopyPiece() override;
@@ -119,7 +119,7 @@ private:
 class King : public Piece
 {
 public:
-	King(Color c, Position pos, const char* gfx, SDL_Renderer* rend);
+	King(Color c, Position pos, SDL_Texture* t);
 
 	//~King();
 	Piece* CopyPiece() override;
