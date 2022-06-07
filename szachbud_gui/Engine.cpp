@@ -108,6 +108,8 @@ void Engine::MainLoop()
 							// komment Arek
 
 
+							// comment Marcin
+
 							// Delete the oponent's piece if its on the target square
 
 							if (PixelsToSquare(mouseX, mouseY)->piece)
