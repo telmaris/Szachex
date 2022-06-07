@@ -5,5 +5,11 @@
 
 class AI
 {
+public:
+
+
+
+
+private:
 
 };

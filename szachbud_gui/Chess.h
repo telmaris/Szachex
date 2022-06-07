@@ -73,5 +73,5 @@ private:
 	int whiteKingPosition, blackKingPosition;
 
 	std::vector<Move> history;
-	std::set<Move> legalMoves;
+	std::vector<Move> legalMoves;
 };

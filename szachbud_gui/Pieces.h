@@ -5,6 +5,11 @@
 struct Move
 {
 	int src, dest;
+
+	inline bool operator==(const Move& rhs)
+	{
+		return (src == rhs.src) && (dest == rhs.dest);
+	}
 };
 
 inline bool operator<(const Move& lhs, const Move& rhs)
