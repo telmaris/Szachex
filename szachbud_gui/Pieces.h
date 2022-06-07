@@ -7,6 +7,11 @@ struct Move
 	int src, dest;
 };
 
+inline bool operator<(const Move& lhs, const Move& rhs)
+{
+	return (lhs.src != rhs.src) && (lhs.dest != rhs.dest);
+}
+
 class Piece
 {
 public:
@@ -27,7 +32,7 @@ public:
 	int moveCounter;
 	int pos;
 	Type type;
-	
+
 
 
 protected:

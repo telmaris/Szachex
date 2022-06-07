@@ -24,14 +24,19 @@ void Engine::MainLoop()
 
 		if (!movesEvaluated)
 		{
+			//std::vector<Move> mechMoves{};
+
 			if (cb->GetTurn() == Color::WHITE)
 			{
-				//std::vector<Move> mechMoves = FindMechanicalMoves(cb.get(), Color::WHITE);
+				//mechMoves = FindMechanicalMoves(cb.get(), Color::WHITE);
+
 			}
 			else
 			{
-
+				//mechMoves = FindMechanicalMoves(cb.get(), Color::BLACK);
 			}
+
+			//FindLegalMoves(mechMoves);
 
 			movesEvaluated = true;
 		}
@@ -105,10 +110,6 @@ void Engine::MainLoop()
 								selectedSquare = nullptr;
 								break;
 							}
-							// komment Arek
-							//test
-
-							// comment Marcin
 
 							// Delete the oponent's piece if its on the target square
 

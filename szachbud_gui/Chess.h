@@ -21,6 +21,7 @@ public:
 	bool IsMoveValid(Move m);
 
 	std::vector<Move> FindMechanicalMoves(Color c);
+	void FindLegalMoves(std::vector<Move> v);
 
 	template <typename T> T* CreatePiece(Color c, ChessPosition pos, const char* gfx, SDL_Renderer* rend)
 	{
@@ -45,7 +46,7 @@ public:
 	void DestroyPiece(Piece* p);
 
 	inline SDL_Texture* GetTexture(Piece* p);
-	Color& const GetTurn();
+	Color GetTurn();
 	void ChangeTurn();
 	Square* GetSquare(int index);
 
@@ -68,5 +69,5 @@ private:
 	int whiteKingPosition, blackKingPosition;
 
 	std::vector<Move> history;
-	std::vector<Move> legalMoves;
+	std::set<Move> legalMoves;
 };

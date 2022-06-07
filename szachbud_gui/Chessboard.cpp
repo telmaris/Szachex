@@ -12,6 +12,8 @@ Chessboard::Chessboard()
 	black = std::vector<Piece*>{};
 	history = std::vector<Move>{};
 
+	legalMoves = std::set<Move>{};
+
 	turn = Color::WHITE;
 }
 
@@ -76,7 +78,7 @@ void Chessboard::DrawPieces(SDL_Renderer* r)
 	}
 }
 
-Color& const Chessboard::GetTurn()
+Color Chessboard::GetTurn()
 {
 	return turn;
 }
@@ -119,7 +121,7 @@ bool Chessboard::IsCollision(Move move)
 
 std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 {
-	std::vector< Move> buff{};
+	std::vector<Move> buff{};
 	if (turn == Color::WHITE)
 	{
 		for (auto p : white)
@@ -153,7 +155,23 @@ std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 
 bool Chessboard::IsMoveValid(Move m)
 {
+	if (legalMoves.find(m) != legalMoves.end())
+	{
+		return true;
+	}
 
-
-	return true;
+	return false;
 }
+
+void Chessboard::FindLegalMoves(std::vector<Move> v)
+{
+	for (auto p : v)
+	{
+		if (!IsCheck(p))
+		{
+			//legalMoves.insert(p);
+		}
+	}
+}
+
+
