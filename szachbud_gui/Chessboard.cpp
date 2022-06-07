@@ -124,8 +124,66 @@ bool Chessboard::IsCheck(Move move) { return false; }
 
 bool Chessboard::IsCollision(Move move)
 {
+	int a = move.dest - move.src;
+	int b = abs(floor(move.dest / 8) - floor(move.src / 8));
+	int offset;
+	
+	if (b == 0) { offset = a / abs(a); }
+	else { offset = a / b; }
 
-	return false;
+	bool wasEnemySpotted = false;
+	bool isDetection = false;
+	int currPos = move.src;
+
+	while (currPos != move.dest)
+	{
+		if (wasEnemySpotted == true)
+		{
+			isDetection = true;
+			break;
+		}
+		if (GetSquare(currPos + offset)->piece != NULL)
+		{
+			if (GetSquare(currPos + offset)->piece->type == PAWN && abs(offset) == 8)
+			{
+				isDetection = true;
+				break;
+			}
+			else
+			{
+				// friendly piece
+				if (GetSquare(currPos + offset)->piece->color == GetSquare(move.src)->piece->color)
+				{
+					isDetection = true;
+					break;
+				}
+				// enemy piece
+				if (GetSquare(currPos + offset)->piece->color != GetSquare(move.src)->piece->color)
+				{
+					wasEnemySpotted = true;
+				}
+			}
+		}
+		// No detection
+		else
+		{
+			if (GetSquare(currPos + offset)->piece->type == PAWN && abs(offset) != 8)
+			{
+				// pion bije na ukos
+				if (GetSquare(currPos + offset)->piece != NULL)
+				{
+					if (GetSquare(currPos + offset)->piece->color != GetSquare(move.src)->piece->color)
+					{
+						wasEnemySpotted = true;
+					}
+					else { isDetection = true; break; }
+				}
+				else { isDetection = true; break; }
+			}
+		}
+	}
+
+	return isDetection;
 }
 
 std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
