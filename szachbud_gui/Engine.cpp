@@ -105,7 +105,7 @@ void Engine::MainLoop()
 								selectedSquare = nullptr;
 								break;
 							}
-
+							// komment Arek
 
 
 							// Delete the oponent's piece if its on the target square
