@@ -21,6 +21,7 @@ Piece::Piece(Color c, Position p, const char* gfx, SDL_Renderer* rend)
 
 Piece::~Piece()
 {
+	SDL_DestroyTexture(texture);
 	std::cout << "Piece destroyed!" << std::endl;
 }
 
