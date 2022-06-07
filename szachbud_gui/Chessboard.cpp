@@ -104,5 +104,5 @@ void Chessboard::AddMove(Move m)
 
 std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 {
-
+	return std::vector<Move>{};
 }

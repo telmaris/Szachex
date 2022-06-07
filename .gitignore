@@ -1,8 +1,8 @@
 .vs/
 .git/
 x64/
-*.sln
 *.vcxproj
 *.vcxproj.user
 *.vcxproj.filters
 *.vcxproj
+szachbud_gui/szachbud_gui.vcxproj
