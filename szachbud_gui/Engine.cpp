@@ -17,13 +17,8 @@ void Engine::MainLoop()
 		static int mouseX = 0;
 		static int mouseY = 0;
 
-		//std::cout << "Mouse X: " << mouseX << std::endl;
-		//std::cout << "Mouse Y: " << mouseY << std::endl;
 		SDL_PumpEvents();
 		SDL_GetMouseState(&mouseX, &mouseY);
-
-		//std::cout << "Mouse X po dodatkowym sczytaniu: " << mouseX << std::endl;
-		//std::cout << "Mouse Y: " << mouseY << std::endl;
 
 		static Move currentMove{};
 		static Color turn = Color::WHITE;
