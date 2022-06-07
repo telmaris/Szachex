@@ -34,36 +34,124 @@ SDL_Rect* Piece::GetPosition()
 {
 	return &rect;
 }
-
-bool Pawn::MovePiece(Move m)
+// Queen
+bool Queen::IsValidPosition(int posit, int offset)
 {
-	return false;	//TODO Marcin: patterny ruchów figurek
+	int position = posit + offset;
+	bool horizontalCheck = true;
+	if ((abs(floor(posit / 8) - floor(position / 8)) == 1) && (abs(offset) == 1)) { horizontalCheck = false; }
+
+	bool diagonalCheck = true;
+	if (((floor(posit / 8) == floor(position / 8)) && (abs(offset) == 7)) || (abs(floor(posit / 8) - floor(position / 8)) > 1) && (abs(offset) == 9)) { diagonalCheck = false; }
+
+	return (position >= 0 && position < 64) && horizontalCheck == true && diagonalCheck == true;
 }
 
-bool Knight::MovePiece(Move m)
+std::vector<Move> Queen::GetPieceMoves()
 {
-	return false;
+	std::array<int, 8> Offset{ 1, -1, 7, -7, 8, -8, 9, -9 };
+	std::vector<Move> moves;
+	for (int off : Offset)
+	{
+		int currentPos = pos;
+		while (IsValidPosition(currentPos, off))
+		{
+			currentPos += off;
+			auto m = Move{ pos, currentPos };
+			moves.push_back(m);
+		}
+	}
+	return moves;
 }
 
-bool Bishop::MovePiece(Move m)
+// King
+bool King::IsValidPosition(int posit, int offset)
 {
-	return false;
+	int position = posit + offset;
+	bool horizontalCheck = true;
+	if ((abs(floor(posit / 8) - floor(position / 8)) == 1) && (abs(offset) == 1)) { horizontalCheck = false; }
+
+	bool diagonalCheck = true;
+	if (((floor(posit / 8) == floor(position / 8)) && (abs(offset) == 7)) || (abs(floor(posit / 8) - floor(position / 8)) > 1) && (abs(offset) == 9)) { diagonalCheck = false; }
+
+	return (position >= 0 && position < 64) && (horizontalCheck == true && diagonalCheck == true);
 }
 
-bool Rook::MovePiece(Move m)
+std::vector<Move> King::GetPieceMoves()
 {
-	return false;
+	std::array<int, 8> Offset{ 1, -1, 7, -7, 8, -8, 9, -9 };
+	std::vector<Move> moves;
+	for (int off : Offset)
+	{
+		int currentPos = pos;
+		if (IsValidPosition(currentPos, off))
+		{
+			currentPos += off;
+			auto m = Move{ pos, currentPos };
+			moves.push_back(m);
+		}
+	}
+	return moves;
 }
 
-bool Queen::MovePiece(Move m)
+// Rook
+bool Rook::IsValidPosition(int posit, int offset)
 {
-	return false;
+	int position = posit + offset;
+	bool horizontalCheck = true;
+	if ((abs(floor(posit / 8) - floor(position / 8)) == 1) && (abs(offset) == 1)) { horizontalCheck = false; }
+
+	return (position >= 0 && position < 64) && horizontalCheck == true;
 }
 
-bool King::MovePiece(Move m)
+std::vector<Move> Rook::GetPieceMoves()
 {
-	return false;
+	std::array<int, 4> Offset{ 1, -1, 8, -8};
+	std::vector<Move> moves;
+	for (int off : Offset)
+	{
+		int currentPos = pos;
+		while (IsValidPosition(currentPos, off))
+		{
+			currentPos += off;
+			auto m = Move{ pos, currentPos };
+			moves.push_back(m);
+		}
+	}
+	return moves;
 }
+
+// Bishop
+bool Bishop::IsValidPosition(int posit, int offset)
+{
+	int position = posit + offset;
+	bool diagonalCheck = true;
+	if (((floor(posit / 8) == floor(position / 8)) && (abs(offset) == 7)) || (abs(floor(posit / 8) - floor(position / 8)) > 1) && (abs(offset) == 9)) { diagonalCheck = false; }
+
+	return (position >= 0 && position < 64) && diagonalCheck == true;
+}
+
+std::vector<Move> Bishop::GetPieceMoves()
+{
+	std::array<int, 8> Offset{ 7, -7, 9, -9 };
+	std::vector<Move> moves;
+	for (int off : Offset)
+	{
+		int currentPos = pos;
+		while (IsValidPosition(currentPos, off))
+		{
+			currentPos += off;
+			auto m = Move{ pos, currentPos };
+			moves.push_back(m);
+		}
+	}
+	return moves;
+}
+
+// Knight
+
+
+
 
 Pawn::Pawn(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) {}
 Knight::Knight(Color c, Position pos, const char* gfx, SDL_Renderer* rend) : Piece(c, pos, gfx, rend) {}
