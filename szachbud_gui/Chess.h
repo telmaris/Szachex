@@ -18,6 +18,8 @@ public:
 	void MakeMove(Move m);
 	void AddMove(Move m);
 
+	bool IsMoveValid(Move m);
+
 	std::vector<Move> FindMechanicalMoves(Color c);
 
 	template <typename T> T* CreatePiece(Color c, ChessPosition pos, const char* gfx, SDL_Renderer* rend)

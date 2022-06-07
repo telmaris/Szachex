@@ -29,7 +29,8 @@ Chessboard::~Chessboard()
 
 void Chessboard::MakeMove(Move m)
 {
-	// todo
+	AddMove(m);
+	ChangeTurn();
 }
 
 inline SDL_Texture* Chessboard::GetTexture(Piece* p)
@@ -104,5 +105,12 @@ void Chessboard::AddMove(Move m)
 
 std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 {
-	return std::vector<Move>{};
+	return std::vector<Move>{};	//TODO: MARCIN funkcja do sprawdzenia czy ruchy s¹ legalne fizycznie
+}
+
+bool Chessboard::IsMoveValid(Move m)
+{
+
+
+	return true;
 }

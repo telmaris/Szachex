@@ -89,7 +89,10 @@ void Engine::MainLoop()
 
 					if (selectedSquare != nullptr)
 					{
-						if (true)
+						currentMove.dest = PixelsToSquare(mouseX, mouseY)->position;
+
+
+						if (cb->IsMoveValid(currentMove))	//warunek 
 						{
 							//tutaj sprawdzamy poprawnoœæ ruchu, jesli jest OK to przenosimy figurke
 							//na nowa pozycje. updatujemy jej pozycje na planszy
@@ -103,7 +106,7 @@ void Engine::MainLoop()
 								break;
 							}
 
-							currentMove.dest = PixelsToSquare(mouseX, mouseY)->position;
+
 
 							// Delete the oponent's piece if its on the target square
 
@@ -123,11 +126,10 @@ void Engine::MainLoop()
 
 							// Add a new move to the move history
 
-							cb->AddMove(currentMove);
-							currentMove = Move{};
+							cb->MakeMove(currentMove);
 
-							cb->ChangeTurn();
 							turn = cb->GetTurn();
+							currentMove = Move{};
 							movesEvaluated = false;
 						}
 						else
@@ -164,7 +166,7 @@ void Engine::MainLoop()
 		}
 #endif
 	}
-	}
+}
 
 Engine::Engine(const char* gfx)
 {

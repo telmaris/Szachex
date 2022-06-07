@@ -72,4 +72,3 @@ inline void MoveToChessPosition(int m)
 	std::cout << static_cast<char>(97 + m % 8) << static_cast<int>(1 + m / 8);
 }
 
-

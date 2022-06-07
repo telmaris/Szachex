@@ -37,7 +37,7 @@ SDL_Rect* Piece::GetPosition()
 
 bool Pawn::MovePiece(Move m)
 {
-	return false;
+	return false;	//TODO Marcin: patterny ruchów figurek
 }
 
 bool Knight::MovePiece(Move m)
