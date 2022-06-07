@@ -26,7 +26,7 @@ void Engine::MainLoop()
 		{
 			if (cb->GetTurn() == Color::WHITE)
 			{
-
+				//std::vector<Move> mechMoves = FindMechanicalMoves(cb.get(), Color::WHITE);
 			}
 			else
 			{

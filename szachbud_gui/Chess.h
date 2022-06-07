@@ -53,6 +53,11 @@ public:
 
 private:
 
+	bool IsCheck();
+
+	bool IsCheck(Move m);
+
+	bool IsCollision(Move m);
 
 	std::array<Square, 64> arr;
 

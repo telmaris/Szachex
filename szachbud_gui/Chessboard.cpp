@@ -103,9 +103,52 @@ void Chessboard::AddMove(Move m)
 	history.push_back(m);
 }
 
+// TODO: add body to these functions
+bool Chessboard::IsCheck() 
+{
+	return false;
+}
+
+bool Chessboard::IsCheck(Move move) { return false; }
+
+bool Chessboard::IsCollision(Move move) 
+{
+
+	return false; 
+}
+
 std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 {
-	return std::vector<Move>{};	//TODO: MARCIN funkcja do sprawdzenia czy ruchy s¹ legalne fizycznie
+	std::vector< Move> buff{};
+	if (turn == Color::WHITE)
+	{
+		for (auto p : white)
+		{
+			p->LegalMoves.clear();
+			for (auto m : p->GetPieceMoves())
+			{
+				if (!(IsCollision(m) || IsCheck(m)))
+				{
+				buff.push_back(m);
+				}
+			}
+		}
+	}
+	else
+	{
+		for (auto p : black)
+		{
+			p->LegalMoves.clear();
+			for (auto m : p->GetPieceMoves())
+			{
+				if (!(IsCollision(m) || IsCheck(m)))
+				{
+					buff.push_back(m);
+				}
+			}
+		}
+	}
+	return buff;
 }
 
 bool Chessboard::IsMoveValid(Move m)
