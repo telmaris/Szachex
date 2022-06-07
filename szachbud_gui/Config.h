@@ -14,7 +14,7 @@
 #define WINDOW_X 800
 #define WINDOW_Y 800
 
-//#define MAX_FPS 200
+#define MAX_FPS 60
 
 enum class Color
 {

@@ -11,9 +11,19 @@ void Engine::MainLoop()
 	{
 		auto timeStart = SDL_GetPerformanceCounter();
 		double elapsed = 0.0;
+		
+		//int mouseX = event.button.x;
+		//int mouseY = event.button.y;
+		static int mouseX = 0;
+		static int mouseY = 0;
 
-		int mouseX = event.button.x;
-		int mouseY = event.button.y;
+		//std::cout << "Mouse X: " << mouseX << std::endl;
+		//std::cout << "Mouse Y: " << mouseY << std::endl;
+		SDL_PumpEvents();
+		SDL_GetMouseState(&mouseX, &mouseY);
+
+		//std::cout << "Mouse X po dodatkowym sczytaniu: " << mouseX << std::endl;
+		//std::cout << "Mouse Y: " << mouseY << std::endl;
 
 		static Move currentMove{};
 		static Color turn = Color::WHITE;
