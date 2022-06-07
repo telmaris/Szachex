@@ -56,6 +56,8 @@ public:
 
 	void DrawPieces(SDL_Renderer* r);
 
+	std::unique_ptr<Chessboard> Copy();
+
 private:
 
 	bool IsCheck();

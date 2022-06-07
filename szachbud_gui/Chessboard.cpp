@@ -145,7 +145,13 @@ bool Chessboard::IsCheck()
 	return false;
 }
 
-bool Chessboard::IsCheck(Move move) { return false; }
+bool Chessboard::IsCheck(Move move)
+{
+
+
+
+	return false;
+}
 
 bool Chessboard::IsCollision(Move move)
 {
@@ -277,4 +283,16 @@ void Chessboard::FindLegalMoves(std::vector<Move> v)
 	}
 }
 
+std::unique_ptr<Chessboard> Chessboard::Copy()
+{
+	auto cpy = std::make_unique<Chessboard>(*this);
 
+	for (auto& const p : white)
+	{
+		auto piece = p->CopyPiece();
+		cpy->arr[p->pos].piece = piece;
+		cpy->white.push_back(piece);
+	}
+
+	return cpy;
+}
