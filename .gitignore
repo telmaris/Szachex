@@ -4,6 +4,4 @@ x64/
 *.vcxproj
 *.vcxproj.user
 *.vcxproj.filters
-*.vcxproj
-szachbud_gui/szachbud_gui.vcxproj
 szachbud_gui/szachbud_gui.vcxproj
