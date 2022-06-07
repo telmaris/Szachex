@@ -31,6 +31,15 @@ Chessboard::~Chessboard()
 
 void Chessboard::MakeMove(Move m)
 {
+	if (GetSquare(m.dest)->piece)
+	{
+		DestroyPiece(GetSquare(m.dest)->piece);
+		GetSquare(m.dest)->piece = nullptr;
+	}
+
+	GetSquare(m.dest)->piece = GetSquare(m.src)->piece;
+	GetSquare(m.src)->piece = nullptr;
+
 	AddMove(m);
 	ChangeTurn();
 }

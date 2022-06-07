@@ -97,13 +97,8 @@ void Engine::MainLoop()
 						currentMove.dest = PixelsToSquare(mouseX, mouseY)->position;
 
 
-						if (cb->IsMoveValid(currentMove))	//warunek 
+						if (/*cb->IsMoveValid(currentMove) */ true)	//warunek 
 						{
-							//tutaj sprawdzamy poprawnoœæ ruchu, jesli jest OK to przenosimy figurke
-							//na nowa pozycje. updatujemy jej pozycje na planszy
-
-							// The piece has been returned to its default square
-
 							if (PixelsToSquare(mouseX, mouseY) == selectedSquare)
 							{
 								*(selectedSquare->piece->GetPosition()) = SquareToPixels(selectedSquare);
@@ -111,23 +106,7 @@ void Engine::MainLoop()
 								break;
 							}
 
-							// Delete the oponent's piece if its on the target square
-
-							if (PixelsToSquare(mouseX, mouseY)->piece)
-							{
-								cb->DestroyPiece(PixelsToSquare(mouseX, mouseY)->piece);
-								PixelsToSquare(mouseX, mouseY)->piece = nullptr;
-							}
-
-							// Set the piece's position, assign pointer to the target square
-
 							*(selectedSquare->piece->GetPosition()) = SquareToPixels(PixelsToSquare(mouseX, mouseY));
-							PixelsToSquare(mouseX, mouseY)->piece = selectedSquare->piece;
-							selectedSquare->piece = nullptr;
-
-
-
-							// Add a new move to the move history
 
 							cb->MakeMove(currentMove);
 
@@ -177,7 +156,7 @@ Engine::Engine(const char* gfx)
 	{
 		std::cout << SDL_GetError() << std::endl;
 		return;
-	}
+		}
 
 	if (IMG_Init(IMG_INIT_PNG) < 0)
 	{
@@ -249,7 +228,7 @@ Engine::Engine(const char* gfx)
 	auto bb2 = CreatePiece<Bishop>(Color::BLACK, { 'f', 8 }, "pieces/bb.png");
 	auto bq = CreatePiece<Queen>(Color::BLACK, { 'd', 8 }, "pieces/qb.png");
 	auto bk = CreatePiece<King>(Color::BLACK, { 'e', 8 }, "pieces/kb.png");
-}
+	}
 
 Engine::~Engine()
 {
