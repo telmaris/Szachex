@@ -15,8 +15,6 @@ public:
 
 	~Piece();
 
-	virtual bool MovePiece(Move m) = 0;
-
 	virtual std::vector<Move> GetPieceMoves() = 0;
 
 	SDL_Texture* GetTexture();
