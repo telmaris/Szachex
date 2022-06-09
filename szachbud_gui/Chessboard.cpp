@@ -42,6 +42,8 @@ void Chessboard::MakeMove(Move m)
 	GetSquare(m.dest)->piece = GetSquare(m.src)->piece;
 	GetSquare(m.src)->piece = nullptr;
 
+	*(GetSquare(m.dest)->piece->GetPosition()) = SquareToPixels(GetSquare(m.dest));
+
 	deleteIfEnPassant(m);
 	moveRookDuringCastling(m);
 
@@ -218,7 +220,7 @@ bool Chessboard::IsCollision(Move move)
 
 std::vector<Move> Chessboard::FindMechanicalMoves(Color c)
 {
-	std::cout << "Looking for mechancial moves! \n";
+	//std::cout << "Looking for mechancial moves! \n";
 	std::vector<Move> buff{};
 	if (c == Color::WHITE)
 	{
@@ -555,35 +557,57 @@ void Chessboard::AddCastling()
 
 void Chessboard::moveRookDuringCastling(Move m)
 {
+	int rookPos = 0;
+
 	if (GetSquare(m.dest)->piece->type == KING && abs(m.dest - m.src) == 2)
 	{
 		if (m.dest == 2)
 		{
-			GetSquare(3)->piece = GetSquare(0)->piece;
+			rookPos = 3;
+			GetSquare(rookPos)->piece = GetSquare(0)->piece;
 			GetSquare(0)->piece = nullptr;
-			GetSquare(3)->piece->pos = 3;
-			GetSquare(3)->piece->moveCounter++;
+			GetSquare(rookPos)->piece->pos = rookPos;
+			GetSquare(rookPos)->piece->moveCounter++;
 		}
 		else if (m.dest == 6)
 		{
-			GetSquare(5)->piece = GetSquare(7)->piece;
+			rookPos = 5;
+			GetSquare(rookPos)->piece = GetSquare(7)->piece;
 			GetSquare(7)->piece = nullptr;
-			GetSquare(5)->piece->pos = 5;
-			GetSquare(5)->piece->moveCounter++;
+			GetSquare(rookPos)->piece->pos = rookPos;
+			GetSquare(rookPos)->piece->moveCounter++;
 		}
 		else if (m.dest == 62)
 		{
-			GetSquare(61)->piece = GetSquare(63)->piece;
+			rookPos = 61;
+			GetSquare(rookPos)->piece = GetSquare(63)->piece;
 			GetSquare(63)->piece = nullptr;
-			GetSquare(61)->piece->pos = 61;
-			GetSquare(61)->piece->moveCounter++;
+			GetSquare(rookPos)->piece->pos = rookPos;
+			GetSquare(rookPos)->piece->moveCounter++;
 		}
 		else if (m.dest == 58)
 		{
-			GetSquare(59)->piece = GetSquare(56)->piece;
+			rookPos = 59;
+			GetSquare(rookPos)->piece = GetSquare(56)->piece;
 			GetSquare(56)->piece = nullptr;
-			GetSquare(59)->piece->pos = 59;
-			GetSquare(59)->piece->moveCounter++;
+			GetSquare(rookPos)->piece->pos = rookPos;
+			GetSquare(rookPos)->piece->moveCounter++;
 		}
+
+		*(GetSquare(rookPos)->piece->GetPosition()) = SquareToPixels(GetSquare(rookPos));
 	}
+}
+
+Square* Chessboard::PixelsToSquare(int x, int y)
+{
+	int index = ((7 - (y / 100)) * 8) + (x / 100);
+	return GetSquare(index);
+}
+
+SDL_Rect Chessboard::SquareToPixels(Square* s)
+{
+	int index = s->position;
+	SDL_Rect r{ 100 * (index % 8) + 10, 100 * (7 - (index / 8)) + 10, 80, 80 };
+
+	return r;
 }

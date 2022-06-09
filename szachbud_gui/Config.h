@@ -5,6 +5,7 @@
 #include <array>
 #include <memory>
 #include <unordered_set>
+#include <random>
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -72,3 +73,11 @@ inline void MoveToChessPosition(int m)
 	std::cout << static_cast<char>(97 + m % 8) << static_cast<int>(1 + m / 8);
 }
 
+inline int Random(int a, int b)
+{
+	std::random_device dev;
+	std::mt19937 rng(dev());
+	std::uniform_int_distribution<std::mt19937::result_type> dist(a, b);
+
+	return dist(dev);
+}

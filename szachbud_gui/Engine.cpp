@@ -39,12 +39,25 @@ void Engine::MainLoop()
 
 			cb->FindLegalMoves(mechMoves);
 
-			for (auto m : cb->legalMoves)
+			movesEvaluated = true;
+
+			if (cb->legalMoves.empty())
 			{
-				std::cout << "Move: " << m.src << " " << m.dest << std::endl;
+				continue;
 			}
 
-			movesEvaluated = true;
+			if (turn == Color::BLACK)
+			{
+				Move aiMove = ai->RandomMove(cb->legalMoves);
+				//Move aiMove = ai->ChooseMove(cb->legalMoves, cb.get());
+
+				cb->MakeMove(aiMove);
+
+				turn = cb->GetTurn();
+				currentMove = Move{};
+				movesEvaluated = false;
+				continue;
+			}
 		}
 
 		if (SDL_PollEvent(&event) > 0)
@@ -112,8 +125,6 @@ void Engine::MainLoop()
 								selectedSquare = nullptr;
 								break;
 							}
-
-							*(selectedSquare->piece->GetPosition()) = SquareToPixels(PixelsToSquare(mouseX, mouseY));
 
 							cb->MakeMove(currentMove);
 
@@ -251,16 +262,12 @@ void Engine::Draw()
 
 Square* Engine::PixelsToSquare(int x, int y)
 {
-	int index = ((7 - (y / 100)) * 8) + (x / 100);
-	return cb->GetSquare(index);
+	return cb->PixelsToSquare(x,y);
 }
 
 SDL_Rect Engine::SquareToPixels(Square* s)
 {
-	int index = s->position;
-	SDL_Rect r{ 100 * (index % 8) + 10, 100 * (7 - (index / 8)) + 10, 80, 80 };
-
-	return r;
+	return cb->SquareToPixels(s);
 }
 
 std::vector<Move> Engine::FindMechanicalMoves(Chessboard* board, Color c)

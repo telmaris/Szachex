@@ -51,6 +51,8 @@ public:
 	Square* GetSquare(int index);
 
 	void DrawPieces(SDL_Renderer* r);
+	Square* PixelsToSquare(int x, int y);
+	SDL_Rect SquareToPixels(Square* s);
 
 	std::unique_ptr<Chessboard> Copy();
 
